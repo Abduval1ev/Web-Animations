@@ -30,7 +30,7 @@ const About = () => {
           ease: "power1.inOut",
           stagger: 0.04,
         },
-        "-=0.01"
+        "-=0.5"
       );
   }, []);
 
