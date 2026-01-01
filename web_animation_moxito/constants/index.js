@@ -118,19 +118,19 @@ const openingHours = [
 
 const socials = [
     {
-        name: "Instagram",
-        icon: "/images/insta.png",
+        name: "Linked In",
+        icon: "/images/linkedin.png",
         url: "#",
     },
     {
-        name: "X (Twitter)",
-        icon: "/images/x.png",
-        url: "#",
+        name: "Telegram",
+        icon: "/images/telegram.png",
+        url: "https://t.me/my_kr1pton",
     },
     {
-        name: "Facebook",
-        icon: "/images/fb.png",
-        url: "#",
+        name: "Github",
+        icon: "/images/github.png",
+        url: "https://github.com/Abduval1ev",
     },
 ];
 
