@@ -1,27 +1,34 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { SplitText } from "gsap/all";
+import { useRef } from "react";
+import { useMediaQuery } from "react-responsive";
 
 const Hero = () => {
+  const videoRef = useRef();
+
+  const isMobile = useMediaQuery({ maxWidth: 768 });
   useGSAP(() => {
-    const heroSplit = new SplitText(".title", { type: "chars, words" });
-    const paragraphSplit = new SplitText(".subtitle", { type: "lines" });
+    document.fonts.ready.then(() => {
+      const heroSplit = new SplitText(".title", { type: "chars, words" });
+      const paragraphSplit = new SplitText(".subtitle", { type: "lines" });
 
-    heroSplit.chars.forEach((char) => char.classList.add("text-gradient"));
+      heroSplit.chars.forEach((char) => char.classList.add("text-gradient"));
 
-    gsap.from(heroSplit.chars, {
-      yPercent: 100,
-      duration: 1.5,
-      ease: "expo.out",
-      stagger: 0.05,
-    });
-    gsap.from(paragraphSplit.lines, {
-      opacity: 0,
-      yPercent: 100,
-      duration: 1.8,
-      ease: "expo.out",
-      stagger: 0.06,
-      delay: 1,
+      gsap.from(heroSplit.chars, {
+        yPercent: 100,
+        duration: 1.5,
+        ease: "expo.out",
+        stagger: 0.05,
+      });
+      gsap.from(paragraphSplit.lines, {
+        opacity: 0,
+        yPercent: 100,
+        duration: 1.8,
+        ease: "expo.out",
+        stagger: 0.06,
+        delay: 1,
+      });
     });
 
     gsap
@@ -30,11 +37,30 @@ const Hero = () => {
           trigger: "#hero",
           start: "top top",
           end: "bottom top",
-          scrub: true,
+          scrub: 0.3,
         },
       })
-      .to(".right-leaf", { y: 200 }, 0)
-      .to(".left-leaf", { y: -200 }, 0);
+      .to(".right-leaf", { y: 300 }, 0)
+      .to(".left-leaf", { y: -300 }, 0);
+
+    const startValue = isMobile ? "top 50%" : "center 60%";
+    const endValue = isMobile ? "120% top" : "bottom top";
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "video",
+        start: startValue,
+        end: endValue,
+        scrub: true,
+        pin: true,
+      },
+    });
+
+    videoRef.current.onloadedmetadata = () => {
+      tl.to(videoRef.current, {
+        currentTime: videoRef.current.duration,
+      });
+    };
   }, []);
 
   return (
@@ -70,6 +96,15 @@ const Hero = () => {
           </div>
         </div>
       </section>
+      <div className="video absolute inset-0">
+        <video
+          ref={videoRef}
+          src="/videos/output.mp4"
+          muted
+          playsInline
+          className="z-index-10"
+        ></video>
+      </div>
     </>
   );
 };
